@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+"""
+NOT DONE
+"""
+
 # Import and initialize the pygame library
 import pygame
 import random
@@ -11,8 +15,8 @@ colors = ["blue", "light_blue", "yellow", "orange", "green"]
 
 config = {
     "sprite": {
-        "width": 15,
-        "height": 15,
+        "width": 10,
+        "height": 10,
         "speed": 1,
     },
     "images": {
@@ -37,7 +41,7 @@ config = {
         "social_distance": 20,
         "infection_radius": 10,
         "infection_rate": .20,
-        "population_count": 10,
+        "population_count": 100,
         "pid": 1,
     }
 }
@@ -51,7 +55,7 @@ class Person(pygame.sprite.Sprite):
     def __init__(self, **kwargs):
         """ Constructor. 
         """
-
+        
         # Call the parent class (Sprite) constructor
         super().__init__()
         self.width = kwargs.get("width", 10)
@@ -164,13 +168,6 @@ class Person(pygame.sprite.Sprite):
 
         return sides
 
-class SimStats(object):
-    def __init__(self):
-        pass
-
-class Community(SimStats):
-    def __init__(self):
-        pass
 
 class Simulation:
     def __init__(self, **kwargs):
@@ -180,8 +177,6 @@ class Simulation:
         self.population_count = kwargs.get("population_count", 10)
         self.sprite_group = pygame.sprite.Group()
         self.screen = kwargs.get("screen", None)
-
-        print(self.screen)
 
         if self.screen == None:
             print(
@@ -201,13 +196,17 @@ class Simulation:
 
         x = random.randint(0, self.game_width)
         y = random.randint(0, self.game_height)
+
         coord = kwargs.get("coord", [x, y])
+
+        print(coord)
 
         p = Person(color=random.choice(colors),
                    width=config["sprite"]["width"],
                    height=config["sprite"]["height"],
                    speed=config["sprite"]["speed"],
                    coord=coord)
+        print(p)
         self.population.append(p)
         self.sprite_group.add(p)
 

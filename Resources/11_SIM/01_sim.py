@@ -15,7 +15,7 @@ config = {
     "sprite":{
         "width" : 15,
         "height" : 15,
-        "speed" : 5,
+        "speed" : 1,
     },
     "images" : {
         "blue" : "./images/pac_blue_30x30.png",
@@ -28,8 +28,8 @@ config = {
         "black" : "./images/pac_black_30x30.png"
     },
     "game":{
-        "width" : 600,
-        "height" : 600,
+        "width" : 300,
+        "height" : 300,
         "day" : 0,
         "fps" : 40,
         "loop_count" : 0
@@ -39,7 +39,7 @@ config = {
         "social_distance" : 20,
         "infection_radius" : 10,
         "infection_rate" : .20,
-        "population_count" : 100,
+        "population_count" : 10,
         "pid" : 1,
     }
 }
@@ -127,7 +127,6 @@ class Person(pygame.sprite.Sprite):
         }
 
         if self.rect.colliderect(other.rect):
-            
             if self.rect.top < other.rect.top:
                 sides_contacted["bottom"] = True
                 self.rect.y -= abs(self.rect.y-other.rect.y)//2
