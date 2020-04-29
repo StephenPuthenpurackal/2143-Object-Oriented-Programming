@@ -5,6 +5,12 @@ import pygame
 import random
 import math
 
+# population
+# community
+# person
+
+
+
 class Config:
     #no constructor
     width = 1024
@@ -54,7 +60,42 @@ print(Data["dead_names"][0])
 x,y = (34,78)
 """
 
+## Travel 
 
+class Population:
+    ''' keep track of stats
+    '''
+    def __init__(self):
+        self.people = []
+
+class Simulation:
+    ''' main driver , setup config the sim, move people, etc.
+    '''
+    def __init__(self):
+        self.people = []
+        self.communities = []
+
+    def move(self):
+        for c in self.communities:
+            c.move()
+
+class Community(Population):
+    ''' boundaries , local stats
+    '''
+    def __init__(self):
+        self.people = []
+                    #  x1 , y1  x2 , y2
+        self.bounds = [100,100,300,300]
+
+    def travel(self):
+        i = random.randint(0,len(self.people))
+        p = self.people[i]
+        del self.people[i]
+        return p
+
+    def move(self):
+        for p in people:
+            p.move(self.bounds)
 
 # pygame thing
 class Person(pygame.sprite.Sprite):
@@ -300,6 +341,8 @@ if __name__=='__main__':
             for sp in people:
                 if not p == sp:  #and sp.state == 'infected':
                     p.collide(sp,25)
+
+       
 
         # Flip the display
         pygame.display.flip()
