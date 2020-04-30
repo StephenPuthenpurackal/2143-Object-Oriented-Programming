@@ -11,9 +11,9 @@ colors = ["blue", "light_blue", "yellow", "orange", "green"]
 
 config = {
     "sprite": {
-        "width": 15,
-        "height": 15,
-        "speed": 1,
+        "width": 10,
+        "height": 10,
+        "speed": 2,
     },
     "images": {
         "blue": "./images/pac_blue_30x30.png",
@@ -37,7 +37,7 @@ config = {
         "social_distance": 20,
         "infection_radius": 10,
         "infection_rate": .20,
-        "population_count": 10,
+        "population_count": 100,
         "pid": 1,
     }
 }
@@ -230,6 +230,11 @@ class Simulation:
 
 if __name__ == '__main__':
     pygame.init()
+    pygame.display.set_caption('Corona Virus') 
+
+    font = pygame.font.Font('./fonts/Roboto-Black.ttf', 20) 
+
+
 
     # Set up the drawing window
     screen = pygame.display.set_mode(
@@ -254,6 +259,7 @@ if __name__ == '__main__':
         # Fill the background with blackish
         # Do not do this after you draw sprites!
         screen.fill((30, 30, 30))
+        
 
         # Did the user click the window close button?
         for event in pygame.event.get():
@@ -269,6 +275,12 @@ if __name__ == '__main__':
         #___CONTROL SIMULATION HERE_____________________________________________________________
 
         sim.simRun()
+
+        text = font.render(str(len(sim.population)), True, (30, 255, 30), (30, 30, 255)) 
+        textRect = text.get_rect()
+        textRect.right = config["game"]["width"]
+        textRect.bottom = config["game"]["height"]
+        screen.blit(text, textRect) 
 
         #___END CONTROL SIMULATION_____________________________________________________________
 
