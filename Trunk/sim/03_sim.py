@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-"""
+'''
 DO NOT USE 
-"""
+'''
 # Import and initialize the pygame library
 import pygame
 import random
@@ -58,13 +58,13 @@ def Pid():
 
 
 class Person(pygame.sprite.Sprite):
-    """
+    '''
     This class represents the ball.
     It derives from the "Sprite" class in Pygame
-    """
+    '''
     def __init__(self, **kwargs):
-        """ Constructor. 
-        """
+        ''' Constructor. 
+        '''
 
         # Call the parent class (Sprite) constructor
         super().__init__()
@@ -76,7 +76,6 @@ class Person(pygame.sprite.Sprite):
         self.pid = Pid()
 
         self.state = "susceptible"
-
 
         # choose sprite direction
         self.dx = 0
@@ -101,7 +100,19 @@ class Person(pygame.sprite.Sprite):
         # sprite bounding rectangle
         self.rect = self.image.get_rect(center=(self.x, self.y))
 
+    def __repr__(self):
+        ''' Call the __str__method. __repr__ is an exact unambiguous 
+            representation of an object, but we will be good with the
+            __str__ version for now.
+        '''
+
+        return self.__str__()
+
     def __str__(self):
+        ''' Print everything about a person out in a readable format.
+        '''
+        # assign values to small vars to make print 
+        # statement readable
         w = self.width
         h = self.height
         s = self.speed
@@ -119,13 +130,25 @@ class Person(pygame.sprite.Sprite):
         return  f"pid: {p}, w:{w}, h:{h}, s:{s}, x:{x}, y:{y}, dx:{dx}, dy:{dy}, rect:[{t},{b},{l},{r}], state:{self.state}"
 
 
-
-
     def setDxDy(self, dx, dy):
+        ''' Set the direction of a person
+            Params:
+                dx [int] : x direction 
+                dy [int] : y direction
+            Example:
+                Possible x and y values  : [1,-1,0]
+                x = 1
+                y = -1
+                setDxDy(x,y)
+        '''
         self.dx = dx
         self.dy = dy
 
     def getDxDy(self):
+        ''' Get the direction of a person
+            Returns:
+                [tuple] : (x coord , y coord)
+        '''
         return (self.dx, self.dy)
 
     def move(self):
@@ -145,6 +168,12 @@ class Person(pygame.sprite.Sprite):
             self.rect.y += self.speed
 
     def checkCollide(self, other):
+        ''' Checks to see if we collided with some "other" person
+            Params:
+                other [Person] : another Person object
+            Returns:
+                [bool] : True = collided False = nope
+        '''
         sides_contacted = {
             "top": False,
             "bottom": False,
@@ -161,21 +190,18 @@ class Person(pygame.sprite.Sprite):
                 "right": False
             }
 
-            if self.rect.colliderect(other.rect):
-
-                if self.rect.top < other.rect.top:
-                    sides_contacted["bottom"] = True
-                    self.rect.y -= abs(self.rect.y - other.rect.y) // 8
-                if self.rect.left < other.rect.left:
-                    sides_contacted["right"] = True
-                    self.rect.x -= abs(self.rect.x - other.rect.x) // 8
-                if self.rect.right > other.rect.right:
-                    sides_contacted["left"] = True
-                    self.rect.x += abs(self.rect.x - other.rect.x) // 8
-                if self.rect.bottom > other.rect.bottom:
-                    sides_contacted["top"] = True
-                    self.rect.y += abs(self.rect.y - other.rect.y) // 8
-
+            if self.rect.top < other.rect.top:
+                sides_contacted["bottom"] = True
+                self.rect.y -= abs(self.rect.y - other.rect.y) // 8
+            if self.rect.left < other.rect.left:
+                sides_contacted["right"] = True
+                self.rect.x -= abs(self.rect.x - other.rect.x) // 8
+            if self.rect.right > other.rect.right:
+                sides_contacted["left"] = True
+                self.rect.x += abs(self.rect.x - other.rect.x) // 8
+            if self.rect.bottom > other.rect.bottom:
+                sides_contacted["top"] = True
+                self.rect.y += abs(self.rect.y - other.rect.y) // 8
 
             self.changeDirection(sides_contacted)
 
@@ -184,6 +210,9 @@ class Person(pygame.sprite.Sprite):
         return False
 
     def changeDirection(self, sides_contacted):
+        ''' Looks at which side collision happened and changes
+            direction accordingly.
+        '''
         if sides_contacted["top"]:
             self.dy = 1
         if sides_contacted["bottom"]:
@@ -194,6 +223,8 @@ class Person(pygame.sprite.Sprite):
             self.dx = -1
 
     def checkWalls(self):
+        ''' Determines if a person hit a wall, and which one.
+        '''
         sides = {"top": False, "bottom": False, "left": False, "right": False}
 
         if self.rect.top <= 0:
@@ -220,32 +251,100 @@ class Population(list):
     def __init__(self, _list=[]):
         list.__init__(self,_list)
 
+        '''
+            x1,y1 -----------------------+
+            |                            |
+            |                            |
+            |                            |
+            |                            |
+            +------------------------x2,y2
+                                     width,height
+        '''
+        # boundaries 
+        self.x1 = 0                             # upper left x
+        self.y1 = 0                             # upper left y
+
+        self.x2 = config["game"]["width"]       # lower right x
+        self.y2 = config["game"]["height"]      # lower right y
+
+        self.w = int(self.x2 - self.x1)         # width 
+        self.h = int(self.y2 - self.y1)         # height
+
+        self.counts = {
+            "susceptible":0,
+            "infected":0,
+            "removed":0
+        }
+
     def __repr__(self):
         return self.__str__()
 
     def __str__(self):
+        ''' Print everything about a population out in a readable format.
+        '''
         s = ""
         for p in self[:]:
             t = str(p)
             s += t + "\n"
         return s
 
-        
-    def Stats(self):
-        counts = {
+    def getUpperLeft(self):
+        ''' return the upperleft coords of this population
+            group.
+        '''
+        return (x1,y1)
+
+    def getLowerRight(self):
+        ''' return the lowerright coords of this population
+            group.
+        '''
+        return (x2,y2)
+
+    def setUpperLeft(self,coords):
+        ''' return the upperleft coords of this population
+            group.
+        '''
+        self.x1 = coords[0]
+        self.y1 = coords[1]
+
+    def setLowerRight(self,coords):
+        ''' return the lowerright coords of this population
+            group.
+        '''
+        self.x2 = coords[0]
+        self.y2 = coords[1]
+    
+    def _ResetCounts(self):
+        ''' Private method to reset the counts dictionary to zeros
+        '''
+        self.counts = {
             "susceptible":0,
             "infected":0,
             "removed":0
         }
 
+    def Stats(self):
+        ''' Calculate stats (counts for now)
+        '''
+        self._ResetCounts()
         for p in self[:]:
-            counts[p.state] += 1
+            self.counts[p.state] += 1
         
-        return counts
+        return self.counts
+
+
 
 class Community(Population):
     def __init__(self, **kwargs):
         pass
+
+
+def CreateCommunities(rows=1,cols=1,padding=10):
+    total = rows * cols
+    comm = []
+    for i in range(rows):
+        for j in range(cols):
+            pass
     
 
 class Simulation:
@@ -258,6 +357,7 @@ class Simulation:
             )
             sys.exit()
 
+        self.communities = CreateCommunities()
         self.population = Population()
         self.game_width = kwargs.get("width", 500)
         self.game_height = kwargs.get("height", 500)
@@ -265,8 +365,6 @@ class Simulation:
         self.sprite_group = pygame.sprite.Group()
         self.collision_count = 0
         
-
-
 
     def populateSim(self, pos=None):
         for _ in range(self.population_count):
@@ -326,15 +424,16 @@ class FontHelper:
 
         self.location = None
 
+
     def printLocation(self,location):
-        """
+        '''
         location can be a list with: [top,bottom,left,right]
             top,bottom,left,right = print at respective location in the center (top center, left center, etc.)
             top,right = print at top right corner
             bottom,left = print at bottem left corner
         location can be a tuple with: (x,y)
             gives exact location to print
-        """
+        '''
         if isinstance(location, list):
             self.location = location
             self.x = -1
