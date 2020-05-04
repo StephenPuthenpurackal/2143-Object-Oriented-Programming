@@ -203,6 +203,7 @@ From a visual standpoint: people will move around a screen. Colors are up to you
 - Place all source code and other files inside this folder.
 - Your main python file should be called: `simulation.py`
 - There needs to be a configuration file called `config.json` that gets read in and sets up the simulation.
+  - See [Json Example](./Code_Examples/04_read_json.py) for an example.
 - There needs to be a README.md file that explains / describes your simulation. This document will tell others how to run your code. It will also describe what the config file params represent and how they can be changed to alter the simulation.
 - Sometime before Wednesday at 9:00 p.m. on the 13th of May, you need to meet with me online and show me how your sim runs.
 
