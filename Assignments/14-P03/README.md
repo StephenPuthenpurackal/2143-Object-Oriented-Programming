@@ -1,10 +1,14 @@
 ## Program 3 - Modeling Covid19 Part 2
-#### Due: 05-01-2020 (Friday @ 5:00 p.m.)
+#### Due: 05-11-2020 (Monday @ 5:00 p.m.)
 
 ## Overview
 
-I've posted a few python / pygame example code listings that progressively take you through ... well not a ton of gaming code, but enough to do what we need to get started with our covid19 simulation. This isn't strictly a visualization, but it will make it more interesting if we visualize our infected vs susceptible and recovered. 
+I've been on Discord almost every night at 7:00 p.m. for the last two weeks talking about Python and this project. There are code examples available in a few locations, including:
 
+- This directory has: [Code_Examples](./Code_Examples/)
+- The Resources directory has: 
+  - [10-PyGame](../../Resources/10-PyGame/)
+  - [11-SIM](../../Resources/11_SIM)
 
 ### Disease Model
 
@@ -22,15 +26,19 @@ The SIR model:
 | 2    | Infectious  | A person that has the disease and is contagious | Quarantined                |
 | 3    | Recovered   | A person who had the disesase and recovered     |                            |
 
-**Additional State Info:**
+**Possible State Colors:**
 
-| #    | State       | Color  | Image                              |
-| :--- | :---------- | :----- | :--------------------------------- |
-| 1    | Susceptible | Yellow | ![](./images/pac_yellow_30x30.png) |
-| 2    | Infectious  | Red    | ![](./images/pac_red_30x30.png)    |
-| 3    | Recovered   | Green  | ![](./images/pac_green_30x30.png)  |
+| #    | State       | Color  | Image                                 |
+| :--- | :---------- | :----- | :------------------------------------ |
+| 1    | Susceptible | Yellow | ![](./images/person_yellow_64x64.png) |
+| 2    | Infectious  | Red    | ![](./images/person_red_64x64.png)    |
+| 3    | Recovered   | Green  | ![](./images/person_green_64x64.png)  |
 
+### Other Colors
 
+| White    | Gray | Purple  | Orange  | Peach  | Dark Pink  | Light Blue | Turquoise | 
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|![](./images/person_white_64x64.png)|![](./images/person_gray_64x64.png)| ![](./images/person_purple_64x64.png)| ![](./images/person_orange_64x64.png)|  ![](./images/person_peach_64x64.png)| ![](./images/person_dark_pink_64x64.png)| ![](./images/person_light_blue_64x64.png)| ![](./images/person_turquoise_64x64.png)| 
 
 <img src="https://cs.msutexas.edu/~griffin/zcloud/zcloud-files/covid19a_uml_2020.png" height="150">
 
