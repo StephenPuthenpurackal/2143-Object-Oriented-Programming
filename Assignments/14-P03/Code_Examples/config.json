@@ -1,0 +1,14 @@
+{
+    "width" : 1024,
+    "height" : 768,
+    "sprite_images" : {
+        "white" : "./images/person_white_64x64",
+        "yellow" : "./images/person_yellow_64x64",
+        "black" : "./images/person_black_64x64",
+        "red" : "./images/person_red_64x64",
+        "green" : "./images/person_green_64x64"
+    },
+    "social_distancing" : "False",
+    "infection_radius" : 10,
+    "infection_rate" : 0.20
+}
